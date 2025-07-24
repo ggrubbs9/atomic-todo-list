@@ -26,12 +26,19 @@ interface Task {
             (keydown.enter)="addTask()"
             class="task-input"
           />
-          <button
-            (click)="addTask()"
-            class="add-button"
-          >
-            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          <button (click)="addTask()" class="add-button">
+            <svg
+              class="icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4v16m8-8H4"
+              ></path>
             </svg>
           </button>
         </div>
@@ -41,7 +48,7 @@ interface Task {
           <div *ngIf="tasks.length === 0" class="empty-state">
             No tasks yet. Add one above!
           </div>
-          
+
           <div
             *ngFor="let task of tasks"
             class="task-item"
@@ -71,8 +78,18 @@ interface Task {
                 class="action-button save-button"
                 title="Save edit"
               >
-                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                <svg
+                  class="icon"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  ></path>
                 </svg>
               </button>
               <button
@@ -80,8 +97,18 @@ interface Task {
                 class="action-button cancel-button"
                 title="Cancel edit"
               >
-                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                <svg
+                  class="icon"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  ></path>
                 </svg>
               </button>
             </ng-container>
@@ -100,8 +127,18 @@ interface Task {
                 class="action-button edit-button"
                 title="Edit task"
               >
-                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                <svg
+                  class="icon"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  ></path>
                 </svg>
               </button>
               <button
@@ -109,8 +146,18 @@ interface Task {
                 class="action-button delete-button"
                 title="Remove task"
               >
-                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                <svg
+                  class="icon"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  ></path>
                 </svg>
               </button>
             </ng-template>
@@ -124,7 +171,7 @@ interface Task {
       </div>
     </div>
   `,
-  styleUrls: ['./todo.component.css']
+  styleUrls: ['./todo.component.css'],
 })
 export class TodoComponent {
   tasks: Task[] = [];
@@ -137,7 +184,7 @@ export class TodoComponent {
       const task: Task = {
         id: Date.now(),
         text: this.newTask.trim(),
-        completed: false
+        completed: false,
       };
       this.tasks.push(task);
       this.newTask = '';
@@ -145,22 +192,24 @@ export class TodoComponent {
   }
 
   toggleTaskCompletion(id: number): void {
-    const task = this.tasks.find(t => t.id === id);
+    const task = this.tasks.find((t) => t.id === id);
     if (task) {
       task.completed = !task.completed;
     }
   }
 
   removeTask(id: number): void {
-    this.tasks = this.tasks.filter(task => task.id !== id);
+    this.tasks = this.tasks.filter((task) => task.id !== id);
   }
 
   startEditing(task: Task): void {
     this.editingTaskId = task.id;
     this.editingText = task.text;
-    
+
     setTimeout(() => {
-      const editInput = document.querySelector('.edit-input') as HTMLInputElement;
+      const editInput = document.querySelector(
+        '.edit-input'
+      ) as HTMLInputElement;
       if (editInput) {
         editInput.focus();
         editInput.select();
@@ -170,7 +219,7 @@ export class TodoComponent {
 
   saveEdit(): void {
     if (this.editingText.trim() !== '') {
-      const task = this.tasks.find(t => t.id === this.editingTaskId);
+      const task = this.tasks.find((t) => t.id === this.editingTaskId);
       if (task) {
         task.text = this.editingText.trim();
       }
@@ -185,6 +234,6 @@ export class TodoComponent {
   }
 
   getCompletedTasksCount(): number {
-    return this.tasks.filter(task => task.completed).length;
+    return this.tasks.filter((task) => task.completed).length;
   }
 }
