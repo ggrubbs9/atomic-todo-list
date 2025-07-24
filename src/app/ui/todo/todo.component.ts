@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LocalStorageService, Task } from '../../services/local-storage/local-storage.service';
+import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 import { taskAnimations } from '../../animations/task.animations';
+import { Task } from '../../models/task.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

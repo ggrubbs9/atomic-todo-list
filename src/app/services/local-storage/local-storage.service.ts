@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-
-export type Task = {
-  id: number;
-  text: string;
-  completed: boolean;
-};
+import { Task } from '../../models/task.model';
 
 @Injectable({
   providedIn: 'root',
