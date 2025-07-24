@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TodoComponent } from './ui/todo.component';
+import { TodoComponent } from './ui/todo/todo.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
