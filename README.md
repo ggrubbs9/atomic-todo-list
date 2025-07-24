@@ -2,6 +2,15 @@
 
 Interactive to-do list app using the principles of Atomic Design
 
+To satisfy Atomic Design Principles I have split out code into 4 main sections: 
+⋅⋅⋅* Animations
+⋅⋅⋅* Models
+⋅⋅⋅* Services
+⋅⋅⋅* UI
+
+All of these sections detail out portions of the app into digestible chunks. I could separate the to-do page into separate task components, but that felt like overkill for a simple application like this. I think the organization of this page comes from the simplicity and lack of extended architecture. By defining it into 4 main sections, it is easy to debug and easy for new devs to be onboarded to contribute!
+
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.2.
 
 ## Development server
