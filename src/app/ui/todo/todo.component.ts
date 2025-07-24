@@ -4,12 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { LocalStorageService } from '../../services/local-storage/local-storage.service';
 import { taskAnimations } from '../../animations/task.animations';
 import { Task } from '../../models/task.model';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-todo',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatIcon],
   animations: taskAnimations,
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.css'],
