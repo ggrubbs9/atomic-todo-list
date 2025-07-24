@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LocalStorageService } from '../../services/local-storage/local-storage.service';
@@ -22,10 +22,10 @@ export class TodoComponent {
   editingText = '';
   storageAvailable = true;
   storageUsed = 0;
-  shakeInput: boolean = false;
+  shakeInput = false;
 
   private saveTimeout: number | undefined;
-  private tasksToDelete: Set<number> = new Set();
+  private tasksToDelete = new Set<number>();
 
   private localStorageService = inject(LocalStorageService);
 
