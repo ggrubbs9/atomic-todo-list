@@ -1,12 +1,7 @@
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { TodoComponent } from './todo.component';
 
 describe('TodoComponent', () => {
@@ -16,7 +11,11 @@ describe('TodoComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TodoComponent, FormsModule],
-    }).compileComponents();
+    })
+      .overrideComponent(TodoComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(TodoComponent);
     component = fixture.componentInstance;
@@ -63,9 +62,7 @@ describe('TodoComponent', () => {
 
     it('should show empty state when no tasks exist', () => {
       const emptyState = fixture.debugElement.query(By.css('.empty-state'));
-      expect(emptyState.nativeElement.textContent.trim()).toBe(
-        'No tasks yet. Add one above!'
-      );
+      expect(emptyState.nativeElement.textContent.trim()).toBe('No tasks yet. Add one above!');
     });
 
     it('should not show task summary when no tasks exist', () => {
@@ -110,7 +107,7 @@ describe('TodoComponent', () => {
       component.newTask = 'Task 1';
       component.addTask();
 
-      tick(1000); // if tasks added at some time Date.now() creates identical id and this will error 
+      tick(1000); // if tasks added at some time Date.now() creates identical id and this will error
 
       component.newTask = 'Task 2';
       component.addTask();
@@ -164,18 +161,12 @@ describe('TodoComponent', () => {
 
     it('should show completed tasks with completed styling', () => {
       const taskItems = fixture.debugElement.queryAll(By.css('.task-item'));
-      expect(taskItems[0].nativeElement.classList.contains('completed')).toBe(
-        false
-      );
-      expect(taskItems[1].nativeElement.classList.contains('completed')).toBe(
-        true
-      );
+      expect(taskItems[0].nativeElement.classList.contains('completed')).toBe(false);
+      expect(taskItems[1].nativeElement.classList.contains('completed')).toBe(true);
     });
 
     it('should render checkboxes with correct checked state', () => {
-      const checkboxes = fixture.debugElement.queryAll(
-        By.css('.task-checkbox')
-      );
+      const checkboxes = fixture.debugElement.queryAll(By.css('.task-checkbox'));
       expect(checkboxes[0].nativeElement.checked).toBe(false);
       expect(checkboxes[1].nativeElement.checked).toBe(true);
     });
@@ -187,9 +178,7 @@ describe('TodoComponent', () => {
 
     it('should show task summary when tasks exist', () => {
       const taskSummary = fixture.debugElement.query(By.css('.task-summary'));
-      expect(taskSummary.nativeElement.textContent.trim()).toBe(
-        '1 of 2 tasks completed'
-      );
+      expect(taskSummary.nativeElement.textContent.trim()).toBe('1 of 2 tasks completed');
     });
   });
 
@@ -229,9 +218,7 @@ describe('TodoComponent', () => {
       fixture.detectChanges();
 
       const taskSummary = fixture.debugElement.query(By.css('.task-summary'));
-      expect(taskSummary.nativeElement.textContent.trim()).toBe(
-        '2 of 2 tasks completed'
-      );
+      expect(taskSummary.nativeElement.textContent.trim()).toBe('2 of 2 tasks completed');
     });
   });
 
@@ -262,9 +249,7 @@ describe('TodoComponent', () => {
     });
 
     it('should remove task when delete button is clicked', () => {
-      const deleteButtons = fixture.debugElement.queryAll(
-        By.css('.delete-button')
-      );
+      const deleteButtons = fixture.debugElement.queryAll(By.css('.delete-button'));
       deleteButtons[0].nativeElement.click();
 
       expect(component.tasks.length).toBe(2);
@@ -276,9 +261,7 @@ describe('TodoComponent', () => {
       fixture.detectChanges();
 
       const taskSummary = fixture.debugElement.query(By.css('.task-summary'));
-      expect(taskSummary.nativeElement.textContent.trim()).toBe(
-        '0 of 2 tasks completed'
-      );
+      expect(taskSummary.nativeElement.textContent.trim()).toBe('0 of 2 tasks completed');
     });
   });
 
@@ -319,9 +302,7 @@ describe('TodoComponent', () => {
       component.startEditing(component.tasks[0]);
       fixture.detectChanges();
 
-      const checkboxes = fixture.debugElement.queryAll(
-        By.css('.task-checkbox')
-      );
+      const checkboxes = fixture.debugElement.queryAll(By.css('.task-checkbox'));
       expect(checkboxes[0].nativeElement.disabled).toBe(true);
     });
 
@@ -491,13 +472,7 @@ describe('TodoComponent', () => {
       }
 
       expect(component.tasks.length).toBe(5);
-      expect(component.tasks.map((t) => t.text)).toEqual([
-        'Task 1',
-        'Task 2',
-        'Task 3',
-        'Task 4',
-        'Task 5',
-      ]);
+      expect(component.tasks.map((t) => t.text)).toEqual(['Task 1', 'Task 2', 'Task 3', 'Task 4', 'Task 5']);
     });
   });
 
