@@ -8,7 +8,7 @@
     }
 
     <!-- Add Task Section -->
-    <div class="add-task-section">
+    <div class="add-task-section" [@shake]="shakeInput">
       <input
         class="task-input"
         placeholder="Add a new task..."
@@ -28,7 +28,7 @@
             <div class="empty-state">No tasks yet. Add one above!</div>
           } -->
       @for (task of tasks; track task.id) {
-        <div class="task-item" [class.completed]="task.completed">
+        <div class="task-item" [class.completed]="task.completed" [@taskDelete] [@taskAdd]>
           <input
             class="task-checkbox"
             type="checkbox"
@@ -70,7 +70,11 @@
                   stroke-width="2" />
               </svg>
             </button>
-            <button class="action-button delete-button" title="Remove task" type="button" (click)="removeTask(task.id)">
+            <button
+              class="action-button delete-button"
+              title="Remove task"
+              type="button"
+              (click)="removeTaskWithAnimation(task.id)">
               <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
@@ -95,7 +99,11 @@
     @if (storageAvailable && tasks.length > 0) {
       <div class="storage-info">
         <div class="storage-actions">
-          <button class="clear-button" title="Remove tasks from storage" type="button" (click)="clearAllTasks()">
+          <button
+            class="clear-button"
+            title="Remove tasks from storage"
+            type="button"
+            (click)="clearAllTasksWithAnimation()">
             Remove Tasks From Storage
           </button>
           <button class="export-button" title="Export tasks as JSON" type="button" (click)="exportTasks()">

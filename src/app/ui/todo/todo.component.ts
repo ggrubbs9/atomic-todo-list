@@ -1,13 +1,15 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LocalStorageService, Task } from '../../services/local-storage/local-storage.service';
+import { taskAnimations } from '../../animations/task.animations';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-todo',
   standalone: true,
   imports: [CommonModule, FormsModule],
+  animations: taskAnimations,
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.css'],
 })
@@ -18,8 +20,11 @@ export class TodoComponent {
   editingText = '';
   storageAvailable = true;
   storageUsed = 0;
+  shakeInput: boolean = false;
 
   private saveTimeout: number | undefined;
+  private tasksToDelete: Set<number> = new Set();
+
   private localStorageService = inject(LocalStorageService);
 
   OnInit(): void {
@@ -73,6 +78,13 @@ export class TodoComponent {
     }
   }
 
+  /**
+   * Trigger shake animation for input validation
+   */
+  private triggerShakeAnimation(): void {
+    this.shakeInput = !this.shakeInput;
+  }
+
   addTask(): void {
     if (this.newTask.trim() !== '') {
       const task: Task = {
@@ -83,6 +95,9 @@ export class TodoComponent {
       this.tasks.push(task);
       this.newTask = '';
       this.saveTasks();
+    } else {
+      // Trigger shake animation for empty input
+      this.triggerShakeAnimation();
     }
   }
 
@@ -96,7 +111,17 @@ export class TodoComponent {
 
   removeTask(id: number): void {
     this.tasks = this.tasks.filter((task) => task.id !== id);
+    this.tasksToDelete.delete(id);
     this.saveTasks();
+  }
+
+  /**
+   * Remove task with animation delay
+   */
+  removeTaskWithAnimation(id: number): void {
+    // Mark task for deletion to trigger animation
+    this.tasksToDelete.add(id);
+    this.removeTask(id);
   }
 
   startEditing(task: Task): void {
@@ -141,6 +166,35 @@ export class TodoComponent {
       this.tasks = [];
       this.localStorageService.clearTasks();
       this.updateStorageInfo();
+    }
+  }
+
+  /**
+   * Clear all tasks with staggered animation
+   */
+  clearAllTasksWithAnimation(): void {
+    if (confirm('Are you sure you want to clear all tasks? This action cannot be undone.')) {
+      // Mark all tasks for deletion
+      this.tasks.forEach((task) => this.tasksToDelete.add(task.id));
+
+      // Stagger the deletion animations
+      this.tasks.forEach((task, index) => {
+        setTimeout(
+          () => {
+            this.removeTask(task.id);
+          },
+          index * 100 + 300,
+        ); // Stagger by 100ms + animation delay
+      });
+
+      // Clear localStorage after all animations
+      setTimeout(
+        () => {
+          this.localStorageService.clearTasks();
+          this.updateStorageInfo();
+        },
+        this.tasks.length * 100 + 600,
+      );
     }
   }
 

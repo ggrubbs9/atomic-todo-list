@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { TodoComponent } from './todo.component';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 describe('TodoComponent', () => {
   let component: TodoComponent;
@@ -11,6 +12,7 @@ describe('TodoComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TodoComponent, FormsModule],
+      providers: [provideAnimations()],
     })
       .overrideComponent(TodoComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
